@@ -46,6 +46,12 @@ stdenv.mkDerivation {
     ];
   };
 
+  # The test suite runs tools/runtime_CLI.py through its shebang, and the Nix
+  # build sandbox has no /usr/bin/env.
+  postPatch = ''
+    patchShebangs --build tools
+  '';
+
   strictDeps = true;
 
   nativeBuildInputs = [
