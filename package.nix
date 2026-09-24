@@ -84,6 +84,9 @@ stdenv.mkDerivation {
 
   doCheck = true;
   nativeCheckInputs = [ ctestCheckHook ];
+  # test_devmgr and simple_switch/test_packet_redirect bind the same nanomsg
+  # IPC socket path under /tmp, so they cannot run at the same time.
+  enableParallelChecking = false;
   # These two check that an out-of-bounds meter index is rejected, but the
   # PSA and PNA meter externs only do that check `#ifndef NDEBUG`, and a
   # Release build (the default here) defines NDEBUG. The repo's own CI does
